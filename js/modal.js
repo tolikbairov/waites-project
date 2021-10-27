@@ -6,6 +6,7 @@ import {
 import { fetchUsers, postUsers } from "./jsonRequests/fetchJson.js";
 import { onSuccess, onError } from "./notifies.js";
 import "./table.js";
+import { createTableRow, tbody } from "./table.js";
 const sendBtn = document.querySelector(".send-btn");
 const email_field = document.querySelector("#exampleInputEmail1");
 const emailInvalidFeedback = document.querySelector(".email_invalid-feedback");
@@ -13,6 +14,7 @@ const firstnameField = document.querySelector("#exampleInputFirstName");
 const firstnameInvalidFeedback = document.querySelector(
   ".firstname_invalid-feedback"
 );
+
 const lastnameField = document.querySelector("#exampleInputLastName");
 const lastnameInvalidFeedback = document.querySelector(
   ".lastname_invalid-feedback"
@@ -75,8 +77,11 @@ async function onsubmitHandler(e) {
     };
 
     try {
-      await postUsers(user);
+      const savedUser = await postUsers(user);
+
       onSuccess();
+      closeModal();
+      tbody.insertAdjacentHTML("beforeend", createTableRow(savedUser));
     } catch (error) {
       onError(error);
     }

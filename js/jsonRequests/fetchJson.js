@@ -1,5 +1,7 @@
 export function fetchUsers() {
-  return fetch("http://localhost:3000/users")
+  return fetch(
+    "https://my-json-server.typicode.com/tolikbairov/json-server/users"
+  )
     .then((response) => {
       if (!response.ok) {
         throw new Error(response.status);
@@ -56,7 +58,10 @@ export async function postUsers(user) {
     body: JSON.stringify(object),
   };
 
-  const fetchResponse = await fetch("http://localhost:3000/users", settings);
+  const fetchResponse = await fetch(
+    "http://my-json-server.typicode.com/tolikbairov/json-server/users",
+    settings
+  );
   if (!fetchResponse.ok) {
     throw new Error(fetchResponse.status);
   }
