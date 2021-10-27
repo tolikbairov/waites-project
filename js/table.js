@@ -1,6 +1,6 @@
 import { fetchUsers } from "./jsonRequests/fetchJson.js";
 import { onError } from "./notifies.js";
-const tbody = document.querySelector(".tbody");
+export const tbody = document.querySelector(".tbody");
 function getUsers() {
   fetchUsers()
     .then((data) => {
@@ -8,7 +8,6 @@ function getUsers() {
       data.forEach((element) => {
         tableHtml += createTableRow(element);
       });
-
       tbody.insertAdjacentHTML("afterbegin", tableHtml);
     })
     .catch((error) => {
@@ -16,9 +15,10 @@ function getUsers() {
     });
   // postUsers();
 }
-function createTableRow(user) {
+
+export function createTableRow(user) {
   return `<tr>
-            <td>${user.id}</th>
+            <td>${user.id}</td>
             <td>${user.firstname}</td>
             <td>${user.lastname}</td>
             <td>${user.email}</td>
