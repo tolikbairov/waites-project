@@ -33,8 +33,10 @@ dd {
   /* width: 100%; */
 }
 .container {
+  padding-top: 50px;
+  max-width: 1600px;
   display: flex;
-  justify-content: center;
+
   align-items: center;
   height: 100vh;
 }
@@ -46,4 +48,17 @@ dd {
 }
 .modal-content {
   border-radius: 12px;
+}
+.btn {
+  width: 150px;
+}
+@media screen and (max-width: 768px) {
+  .btn {
+    width: 100%;
+  }
+}
+@media screen and (min-width: 769px) {
+  .modal-dialog--custom {
+    max-width: 1200px;
+  }
 }

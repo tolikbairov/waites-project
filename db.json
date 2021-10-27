@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "firstname": "Anatolii",
+      "lastname": "Bairov",
+      "email": "asdasd@gmail.com",
+      "id": 1
+    },
+    {
+      "firstname": "asd",
+      "lastname": "asd",
+      "email": "asd@gmail.com",
+      "id": 2
+    },
+    {
+      "firstname": "asd",
+      "lastname": "asd",
+      "email": "asd@gm.co",
+      "id": 3
+    }
+  ]
+}
