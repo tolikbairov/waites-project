@@ -59,7 +59,7 @@ export async function postUsers(user) {
   };
 
   const fetchResponse = await fetch(
-    "http://my-json-server.typicode.com/tolikbairov/json-server/users",
+    "https://my-json-server.typicode.com/tolikbairov/json-server/users",
     settings
   );
   if (!fetchResponse.ok) {
