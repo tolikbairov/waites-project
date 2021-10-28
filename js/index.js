@@ -35,10 +35,10 @@ function validateName(inputText) {
   // }
   return errormsg;
 }
+//           <td>${user.id}</td>
 const tbody = document.querySelector(".tbody");
 function createTableRow(user) {
   return `<tr>
-            <td>${user.id}</td>
             <td>${user.firstname}</td>
             <td>${user.lastname}</td>
             <td>${user.email}</td>
@@ -94,7 +94,7 @@ async function postUsers(user) {
   };
 
   const settings = {
-    method: "POST",
+    method: "post",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -102,21 +102,17 @@ async function postUsers(user) {
     body: JSON.stringify(object),
   };
 
-  const fetchResponse = await fetch(
-    "https://my-json-server.typicode.com/tolikbairov/json-server/users",
-    settings
-  );
+  const fetchResponse = await fetch("./db.json", settings);
   if (!fetchResponse.ok) {
     throw new Error(fetchResponse.status);
   }
 
   const data = await fetchResponse.json();
+
   return data;
 }
 function fetchUsers() {
-  return fetch(
-    "https://my-json-server.typicode.com/tolikbairov/json-server/users"
-  )
+  return fetch("./db.json")
     .then((response) => {
       if (!response.ok) {
         throw new Error(response.status);
@@ -124,7 +120,7 @@ function fetchUsers() {
       return response.json();
     })
     .then((data) => {
-      return data;
+      return data.users;
     })
     .catch((error) => {
       console.log(error);
@@ -208,7 +204,7 @@ async function onsubmitHandler(e) {
 
       onSuccess();
       closeModal();
-      tbody.insertAdjacentHTML("beforeend", createTableRow(savedUser));
+      tbody.insertAdjacentHTML("beforeend", createTableRow(user));
     } catch (error) {
       onError(error);
     }
