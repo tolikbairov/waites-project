@@ -59,3 +59,9 @@ dd {
     max-width: 1200px;
   }
 }
+.edit-btn {
+  margin-right: 5px;
+}
+.input-group-text {
+  height: 100%;
+}
