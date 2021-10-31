@@ -4,32 +4,105 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/jquery-3.6.0.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+      integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <link href="./pnotify/PNotify.css" rel="stylesheet" type="text/css" />
     <link href="./pnotify/BrightTheme.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="./assets/bootstrap/css/bootstrap.min.css" />
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css"
+      integrity="sha512-TQQ3J4WkE/rwojNFo6OJdyu6G8Xe9z8rMrlF9y7xpFbQfW5g8aSWcygCQ4vqRiJqFsDsE1T6MoAOMJkFXlrI9A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+      integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+      integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./css/styles.css" />
     <title>Document</title>
   </head>
   <body>
     <div class="container flex-column">
-      <table class="table table-dark">
+      <h1>Request List</h1>
+      <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Email</th>
+            <th scope="col">ID</th>
+            <th scope="col">Request</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody class="tbody"></tbody>
-      </table>
-      <button type="button" class="btn btn-primary btn-lg open-modal">
-        Launch modal
-      </button>
+        <tbody class="tbody">
+          <tr>
+            <td>1</td>
+            <td>Applying for a job</td>
+            <td>
+              <div class="btn-group" role="group">
+                <button class="btn btn-primary edit-btn">Edit</button>
 
+                <button class="btn btn-primary open-request-btn">
+                  Send Request
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div
+        class="modal modal-flex"
+        id="addCustomFieldModal"
+        aria-labelledby="exampleModalLabel"
+        aria-modal="true"
+        role="dialog"
+        tabindex="1600"
+      >
+        <div class="modal-dialog--custom">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">add new field</h2>
+              <button
+                type="button"
+                class="close btn-close close-modal-btn"
+                aria-label="Close"
+                data-close-modal
+              ></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary save-btn">
+                Send
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary close-modal-btn"
+                data-close-modal
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
       <div
         class="modal modal-flex"
-        id="exampleModal"
+        id="editRequestModal"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-modal="true"
@@ -38,12 +111,86 @@
         <div class="modal-dialog--custom">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title" id="exampleModalLabel">Save user</h1>
+              <h2 class="modal-title" id="exampleModalLabel">
+                Edit Applying for a job request
+              </h2>
               <button
                 type="button"
                 class="close btn-close close-modal-btn"
                 aria-label="Close"
-                data-close-modal
+                data-close="edit-modal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group mb-4 field-list">
+                <li class="list-group-item">First Name</li>
+                <li class="list-group-item">Last Name</li>
+                <li class="list-group-item">Email</li>
+                <li class="list-group-item">Date of birth</li>
+                <li class="list-group-item">Profile photo</li>
+                <li class="list-group-item">Experience</li>
+                <li class="list-group-item">Description</li>
+
+                <!-- <button
+                  class="btn btn-primary second-modal"
+                  data-bs-target="#addCustomFieldModal"
+                  data-bs-toggle="modal"
+                  data-bs-dismiss="modal"
+                >
+                  Open second modal
+                </button> -->
+              </ul>
+              <div class="form-outline mb-4">
+                <label for="inputAddField" class="form-label"
+                  >Add new field</label
+                >
+                <input
+                  type="text"
+                  class="form-control form-control-lg"
+                  id="inputAddField"
+                  aria-describedby="firstnameHelp"
+                />
+
+                <div class="invalid-feedback firstname_invalid-feedback">
+                  Please enter a message in the textarea.
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary add-field-btn">
+                add field
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary close-modal-btn"
+                data-close="edit-modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal modal-flex"
+        id="sendRequestModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-modal="true"
+        role="dialog"
+      >
+        <div class="modal-dialog--custom">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title" id="exampleModalLabel">
+                Applying for a job
+              </h2>
+              <button
+                type="button"
+                class="close btn-close close-modal-btn"
+                aria-label="Close"
+                data-close="send-modal"
               ></button>
             </div>
             <div class="modal-body">
@@ -93,16 +240,68 @@
                     Please enter a message in the textarea.
                   </div>
                 </div>
+                <div class="form-outline mb-4">
+                  <label class="form-label"> Date of Birth</label>
+                  <div class="input-group date" data-provide="datepicker">
+                    <input type="text" class="form-control" id="birthdate" />
+                    <div class="input-group-append">
+                      <span class="input-group-text bg-white"
+                        ><i class="fa fa-calendar"></i
+                      ></span>
+                    </div>
+                    <div class="invalid-feedback birthdate_invalid-feedback">
+                      Please enter a birth date
+                    </div>
+                  </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <label for="formFile" class="form-label">profile image</label>
+                  <input
+                    class="form-control"
+                    type="file"
+                    id="formFile"
+                    accept="image/*"
+                  />
+                  <div class="invalid-feedback profileImage_invalid-feedback">
+                    Please download a profile image
+                  </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <div class="form-group">
+                    <label for="experience">Experience</label>
+                    <select class="form-control" id="experience">
+                      <option value="">select experience</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                    <div class="invalid-feedback experience_invalid-feedback">
+                      Please select an experience
+                    </div>
+                  </div>
+                </div>
+                <div class="form-outline mb-4">
+                  <label for="exampleFormControlTextarea1" class="form-label"
+                    >Description</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                  ></textarea>
+                </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary send-btn">
-                Save
+                Send
               </button>
               <button
                 type="button"
                 class="btn btn-secondary close-modal-btn"
-                data-close-modal
+                data-close="send-modal"
               >
                 Close
               </button>
@@ -110,12 +309,22 @@
           </div>
         </div>
       </div>
+
+      <div
+        class="modal-backdrop fade show"
+        id="backdrop"
+        style="display: none"
+      ></div>
     </div>
-    <div
-      class="modal-backdrop fade show"
-      id="backdrop"
-      style="display: none"
-    ></div>
+
+    <script type="text/javascript">
+      $(function () {
+        $(".date").datepicker({
+          format: "dd/mm/yyyy",
+          autoclose: true,
+        });
+      });
+    </script>
     <script src="./pnotify/PNotify.js"></script>
     <script src="./js/index.js"></script>
     <!-- <script type="module" src="./js/main.js"></script> -->

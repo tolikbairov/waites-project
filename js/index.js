@@ -1,17 +1,47 @@
-// import {
-//   validateEmail,
-//   validateName,
-//   validateLastName,
-// } from "./validateMethods.js";
+const sendBtn = document.querySelector(".send-btn");
+const email_field = document.querySelector("#exampleInputEmail1");
+const emailInvalidFeedback = document.querySelector(".email_invalid-feedback");
+const firstnameField = document.querySelector("#exampleInputFirstName");
+const firstnameInvalidFeedback = document.querySelector(
+  ".firstname_invalid-feedback"
+);
+const addFieldModalBtn = document.querySelector(".second-modal");
+const lastnameField = document.querySelector("#exampleInputLastName");
+const lastnameInvalidFeedback = document.querySelector(
+  ".lastname_invalid-feedback"
+);
+const modal = document.getElementById("sendRequestModal");
+const editModal = document.querySelector("#editRequestModal");
+const openBtn = document.querySelector(".open-request-btn");
+const editModalBtn = document.querySelector(".edit-btn");
+const birthDateField = document.querySelector("#birthdate");
+const experienceField = document.querySelector("#experience");
+const profileImageField = document.querySelector("#formFile");
+const addFieldBtn = document.querySelector(".add-field-btn");
+const fieldList = document.querySelector(".field-list");
+const inputAddField = document.querySelector("#inputAddField");
+addFieldBtn.addEventListener("click", () => {
+  addFieldBtnHandler();
+});
+function addFieldBtnHandler() {
+  const newField = inputAddField.value;
+  if (newField.trim()) {
+    const liElement = `<li class="list-group-item">${newField}</li>`;
+    fieldList.insertAdjacentHTML("beforeend", liElement);
+    resetField(inputAddField);
+  }
+}
+editModalBtn.addEventListener("click", () => {
+  document.getElementById("backdrop").style.display = "block";
+  document.getElementById("editRequestModal").style.display = "block";
+  document.getElementById("editRequestModal").classList.add("show");
+});
 function validateLastName(inputText) {
-  // const nameFormat = /^[A-Za-z ]+$/;
   let errormsg = "";
   if (!inputText.trim()) {
     errormsg = "please enter a last name";
   }
-  // else if (!inputText.match(nameFormat)) {
-  //   errormsg = "please enter a valid last name";
-  // }
+
   return errormsg;
 }
 function validateEmail(inputText) {
@@ -25,42 +55,14 @@ function validateEmail(inputText) {
   return errormsg;
 }
 function validateName(inputText) {
-  // const nameFormat = /^[A-Za-z ]+$/;
   let errormsg = "";
   if (!inputText.trim()) {
     errormsg = "please enter a name";
   }
-  // else if (!inputText.match(nameFormat)) {
-  //   errormsg = "please enter a valid name";
-  // }
+
   return errormsg;
 }
-//           <td>${user.id}</td>
-const tbody = document.querySelector(".tbody");
-function createTableRow(user) {
-  return `<tr>
-            <td>${user.firstname}</td>
-            <td>${user.lastname}</td>
-            <td>${user.email}</td>
-          </tr>`;
-}
-window.addEventListener("DOMContentLoaded", () => {
-  getUsers();
-});
-function getUsers() {
-  fetchUsers()
-    .then((data) => {
-      let tableHtml = "";
-      data.forEach((element) => {
-        tableHtml += createTableRow(element);
-      });
-      tbody.insertAdjacentHTML("afterbegin", tableHtml);
-    })
-    .catch((error) => {
-      onError(error);
-    });
-  // postUsers();
-}
+
 function onError(error) {
   PNotify.error({
     text: `Request failed, ${error}`,
@@ -86,11 +88,23 @@ function onSuccess() {
   });
 }
 async function postUsers(user) {
-  const { firstname, lastname, email } = user;
+  const {
+    firstname,
+    lastname,
+    email,
+    birthDate,
+    profileImage,
+    experience,
+    description,
+  } = user;
   const object = {
     firstname: firstname,
     lastname: lastname,
     email: email,
+    birthDate: birthDate,
+    profileImage: profileImage,
+    experience: experience,
+    description: description,
   };
 
   const settings = {
@@ -102,7 +116,7 @@ async function postUsers(user) {
     body: JSON.stringify(object),
   };
 
-  const fetchResponse = await fetch("./db.json", settings);
+  const fetchResponse = await fetch("db.json", settings);
   if (!fetchResponse.ok) {
     throw new Error(fetchResponse.status);
   }
@@ -111,39 +125,21 @@ async function postUsers(user) {
 
   return data;
 }
-function fetchUsers() {
-  return fetch("./db.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(response.status);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return data.users;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-// import { fetchUsers, postUsers } from "./jsonRequests/fetchJson.js";
-// import { onSuccess, onError } from "./notifies.js";
-// import "./table.js";
-// import { createTableRow, tbody } from "./table.js";
-const sendBtn = document.querySelector(".send-btn");
-const email_field = document.querySelector("#exampleInputEmail1");
-const emailInvalidFeedback = document.querySelector(".email_invalid-feedback");
-const firstnameField = document.querySelector("#exampleInputFirstName");
-const firstnameInvalidFeedback = document.querySelector(
-  ".firstname_invalid-feedback"
-);
-
-const lastnameField = document.querySelector("#exampleInputLastName");
-const lastnameInvalidFeedback = document.querySelector(
-  ".lastname_invalid-feedback"
-);
-const modal = document.getElementById("exampleModal");
-const openBtn = document.querySelector(".open-modal");
+// function fetchUsers() {
+//   return fetch("./db.json")
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error(response.status);
+//       }
+//       return response.json();
+//     })
+//     .then((data) => {
+//       return data.users;
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// }
 
 function checkLastName(name) {
   let errormsg = validateLastName(name);
@@ -185,66 +181,96 @@ function checkEmail(email) {
     return false;
   }
 }
-
+function checkFieldOnFilled(field) {
+  if (field.value.trim()) {
+    if (field.classList.contains("is-invalid")) {
+      field.classList.remove("is-invalid");
+    }
+    return true;
+  }
+  field.classList.add("is-invalid");
+  return false;
+}
 async function onsubmitHandler(e) {
   e.preventDefault();
 
   let validEmail = checkEmail(email_field.value);
   let validFirstname = checkFirstName(firstnameField.value);
   let validLastname = checkLastName(lastnameField.value);
-  if (validEmail && validFirstname && validLastname) {
+  let validDate = checkFieldOnFilled(birthDateField);
+  let validProfileImg = checkFieldOnFilled(profileImageField);
+  let validExperience = checkFieldOnFilled(experienceField);
+  if (
+    validEmail &&
+    validFirstname &&
+    validLastname &&
+    validDate &&
+    validProfileImg &&
+    validExperience
+  ) {
     const user = {
       firstname: firstnameField.value,
       lastname: lastnameField.value,
       email: email_field.value,
+      birthDate: birthDateField.value,
+      profileImageField: profileImageField.value,
+      experience: experienceField.value,
     };
 
     try {
-      const savedUser = await postUsers(user);
+      await postUsers(user);
 
       onSuccess();
-      closeModal();
-      tbody.insertAdjacentHTML("beforeend", createTableRow(user));
+      closeSendModal();
     } catch (error) {
       onError(error);
     }
   }
 }
-
+function resetField(field) {
+  field.value = "";
+  if (field.classList.contains("is-invalid")) {
+    field.classList.remove("is-invalid");
+  }
+}
 function openModal() {
   document.getElementById("backdrop").style.display = "block";
-  document.getElementById("exampleModal").style.display = "block";
-  document.getElementById("exampleModal").classList.add("show");
+  document.getElementById("sendRequestModal").style.display = "block";
+  document.getElementById("sendRequestModal").classList.add("show");
 }
-function closeModal() {
+
+function closeSendModal() {
   document.getElementById("backdrop").style.display = "none";
-  document.getElementById("exampleModal").style.display = "none";
-  document.getElementById("exampleModal").classList.remove("show");
-  email_field.value = "";
-  firstnameField.value = "";
-  lastnameField.value = "";
-  if (lastnameField.classList.contains("is-invalid")) {
-    lastnameField.classList.remove("is-invalid");
-  }
-  if (firstnameField.classList.contains("is-invalid")) {
-    firstnameField.classList.remove("is-invalid");
-  }
-  if (email_field.classList.contains("is-invalid")) {
-    email_field.classList.remove("is-invalid");
-  }
+  document.getElementById("sendRequestModal").style.display = "none";
+  document.getElementById("sendRequestModal").classList.remove("show");
+  resetField(email_field);
+  resetField(firstnameField);
+  resetField(lastnameField);
+  resetField(birthDateField);
+  resetField(profileImageField);
+  resetField(experienceField);
+}
+function closeEditModal() {
+  document.getElementById("backdrop").style.display = "none";
+  document.getElementById("editRequestModal").style.display = "none";
+  document.getElementById("editRequestModal").classList.remove("show");
 }
 
-// sendBtn.addEventListener("click", () => {
-//   e.preventDefault();
-
-// });
 openBtn.addEventListener("click", openModal);
 document.addEventListener(
   "click",
   function (event) {
     // If user either clicks X button OR clicks outside the modal window, then close modal by calling closeModal()
-    if (event.target.matches(".close-modal-btn") || event.target == modal) {
-      closeModal();
+    if (
+      event.target.matches("[data-close='send-modal']") ||
+      event.target == modal
+    ) {
+      closeSendModal();
+    } else if (
+      event.target.matches("[data-close='edit-modal']") ||
+      event.target == editModal
+    ) {
+      closeEditModal();
     }
   },
   false
