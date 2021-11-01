@@ -45,7 +45,8 @@ function validateLastName(inputText) {
   return errormsg;
 }
 function validateEmail(inputText) {
-  const mailformat = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  const mailformat =
+    /^(?=[a-z0-9.]{3,20}$)[a-z0-9]+\.?[a-z0-9]+$|^.*@\w+\.[\w.]+$/i;
   let errormsg = "";
   if (!inputText.trim()) {
     errormsg = "please enter a email or username";
@@ -67,6 +68,7 @@ function onError(error) {
   PNotify.error({
     text: `Request failed, ${error}`,
     delay: 3000,
+    maxTextHeight: null,
     stack: new PNotify.Stack({
       dir1: "left",
       dir2: "up", //

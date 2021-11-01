@@ -52,7 +52,10 @@ dd {
 .send-btn {
   min-width: 120px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-height: 900px) {
+  .modal-dialog--custom {
+    height: 100vh;
+  }
 }
 @media screen and (min-width: 769px) {
   .modal-dialog--custom {
